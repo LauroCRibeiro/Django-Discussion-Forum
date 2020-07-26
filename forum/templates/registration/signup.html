@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>Sign Up</h2>
+<form method="post">
+    {% csrf_token %}
+    <table class="table table-bordered">
+        {% for field in form %}
+        <tr>
+            <th>{{field.label}}</th>
+            <td>
+                {{field}}
+                {% for error in field.errors %}
+                <p class="text-danger">{{error}}</p>
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <button class="btn btn-success" type="submit">Submit</button>
+</form>
+<script>
+    $(document).ready(function(){
+        $("input").addClass('form-control');
+    });
+</script>
+{% endblock %}

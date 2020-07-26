@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}Setting{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="/profile">Profile</a></li>
+            <li class="list-group-item"><a href="/setting">Setting</a></li>
+            <li class="list-group-item"><a href="/threads">Threads</a></li>
+            <li class="list-group-item"><a href="/replies">Replies</a></li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <div class="card">
+            <h5 class="card-header">Setting</h5>
+            <div class="card-body">
+                {% for msg in messages %}
+                <p class="text">{{msg}}</p>
+                {% endfor %}
+                <form method="post" action="{% url 'setting' %}">
+                    {% csrf_token %}
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>Signature</td>
+                            <td>
+                                <textarea placeholder="Signature" id="signature" class="form-control" name="signature">{{setting.signature}}</textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" class="btn btn-danger" value="Submit" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Include CKEditor -->
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('signature');
+</script>
+{% endblock %}

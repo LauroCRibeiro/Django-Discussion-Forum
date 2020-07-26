@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h3 class="border-bottom mb-4 pb-1">Login</h3>
+        <form action="." method="post">
+            {% csrf_token %}
+            {% for message in messages %}
+            <p class="alert alert-danger">{{message}}</p>
+            {% endfor %}
+            <table class="table table-bordered">
+                <tr>
+                    <th>Username</th>
+                    <td>
+                        <input placeholder="Enter Username" type="text" name="username" class="form-control">
+                        {{form.username.errors}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td>
+                        <input placeholder="Enter Password" type="password" name="password" class="form-control">
+                        {{form.password.errors}}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input class="btn btn-primary" type="submit" value="Login" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+{% endblock %}

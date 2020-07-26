@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h3 class="border-bottom mb-4 pb-1">Create New Thread</h3>
+        <div class="table-responsive">
+            {% for msg in messages %}
+            <p class="alert alert-light">{{msg}}</p>
+            {% endfor %}
+            <form method="post" action="{% url 'submit-thread' %}">
+                {% csrf_token %}
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Title</th>
+                        <td>
+                            <input type="text" placeholder="Enter Title" name="thread_title" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>
+                            <textarea placeholder="Enter Description" id="thread_detail" name="thread_detail" rows="8" class="form-control"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tags</th>
+                        <td>
+                            <input type="text" name="thread_tags" placeholder="Enter Comma Seprated Tags" class="form-control" />
+                            <small class="text-muted">You can enter maximum 5 tags</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" class="btn btn-primary" value="Create" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Include CKEditor -->
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('thread_detail');
+</script>
+{% endblock %}

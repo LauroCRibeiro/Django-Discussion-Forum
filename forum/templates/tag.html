@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h3 class="border-bottom mb-4 pb-1">{{tag|upper}} Threads</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>#ID</th>
+                        <th>Threads</th>
+                        <th>Replies</th>
+                        <th>Views</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for thread in threads %}
+                    <tr>
+                        <td>{{thread.id}}</td>
+                        <td>
+                            <p><a href="/thread/{{thread.id}}" class="text-danger">{{thread.title}}</a></p>
+                            <p><i class="fa fa-tags"></i>:
+                                {% for tag in thread.tag_as_list %}
+                                <a href="/tag/{{tag|slugify}}" class="badge badge-secondary">{{tag}}</a>
+                                {% endfor %}
+                                 
+                            </p>
+                        </td>
+                        <td>
+                            <i class="fa fa-reply"></i> {{thread.replies}}
+                            <p>Last Reply By <a href="/user/{{thread.user_id.id}}">{{thread.user_id.username}}</a></p>
+                            <small class="text-muted">Last Edited: {{thread.add_time}}</small>
+                        </td>
+                        <td><i class="fa fa-eye"></i> {{thread.views}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- DataTable Bootstrap 4 -->
+<link rel="stylesheet" type="text/css" href="{% static 'DataTables-1.10.18/css/dataTables.bootstrap4.min.css' %}">
+<script type="text/javascript" src="{% static 'DataTables-1.10.18/js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'DataTables-1.10.18/js/dataTables.bootstrap4.min.js' %}"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var table=$("#dataTable").DataTable({
+            'lengthChange':false,
+            'order':[[0,'desc']]
+        });
+        $(".col-md-6:eq(0)").html('<a href="/create-thread" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Create Thread</a>');
+	})
+</script>
+{% endblock %}

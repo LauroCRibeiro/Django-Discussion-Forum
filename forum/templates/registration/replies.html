@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}Replies{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="/profile">Profile</a></li>
+            <li class="list-group-item"><a href="/setting">Setting</a></li>
+            <li class="list-group-item"><a href="/threads">Threads</a></li>
+            <li class="list-group-item"><a href="/replies">Replies</a></li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <div class="card">
+            <h5 class="card-header">Threads</h5>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    {% for reply in replies %}
+                    <tr>
+                        <td>{{forloop.counter}}. 
+                            {{reply.title}}
+                            <small class="float-right text-muted">{{reply.reply_time}}</small>
+                            <br/>
+                            <small class="text-muted"><a target="_blank" href="/thread/{{reply.thread_id.id}}">{{reply.thread_id}}</a></small>
+                            </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Include CKEditor -->
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('signature');
+</script>
+{% endblock %}

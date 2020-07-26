@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h3 class="border-bottom mb-2 pb-1">{{detail.title}}</h3>
+        {% if detail.description %}
+        <p class="text-muted">{{detail.description|safe}}</p>
+        {% endif %}
+        <!-- Reply Box Start -->
+        {% for reply in replies %}
+        <div class="card mb-4 shadow">
+            <h5 class="card-header">
+                {{reply.title}}
+            </h5>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>{{reply.description|safe}}</p>
+                        <p class="mt-3 border-top mt-5">{{reply.get_signature|safe}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Replied On: {{reply.reply_time}} |</small>
+                <small class="text-muted">
+                    Replied By <a href="/user/{{reply.user_id.id}}">{{reply.user_id.username}}</a>
+                </small>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- Reply Box Start -->
+        <!-- Add Reply Start -->
+        <div class="card border-secondary shadow-lg mb-5">
+            <h4 class="card-header">Add Reply</h4>
+            <div class="card-body">
+                <div class="table-responsive">
+                    {% for msg in messages %}
+                    <p class="alert alert-light">{{msg}}</p>
+                    {% endfor %}
+                    <form method="post" action="/reply/{{detail.id}}">
+                        {% csrf_token %}
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Title</th>
+                                <td>
+                                    <input type="text" class="form-control" name="reply_title" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Detail</th>
+                                <td>
+                                    <textarea class="form-control" id="reply_detail" name="reply_detail"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" class="btn btn-danger" value="Submit" />
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Include CKEditor -->
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('reply_detail');
+</script>
+{% endblock %}
